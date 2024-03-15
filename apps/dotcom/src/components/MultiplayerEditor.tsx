@@ -20,7 +20,6 @@ import {
 	ViewSubmenu,
 	atom,
 	debugFlags,
-	lns,
 	useActions,
 	useValue,
 } from 'tldraw'
@@ -123,11 +122,9 @@ export function MultiplayerEditor({
 }) {
 	const handleUiEvent = useHandleUiEvents()
 
-	const roomId = isReadOnly ? lns(roomSlug) : roomSlug
-
 	const storeWithStatus = useRemoteSyncClient({
-		uri: `${MULTIPLAYER_SERVER}/r/${roomId}`,
-		roomId,
+		uri: `${MULTIPLAYER_SERVER}/${isReadOnly ? 'v' : 'r'}/${roomSlug}`,
+		roomId: roomSlug,
 	})
 
 	const isOffline =
