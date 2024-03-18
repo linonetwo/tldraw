@@ -10,7 +10,7 @@ import {
 	type PersistedRoomSnapshotForSupabase,
 	type RoomState,
 } from '@tldraw/tlsync'
-import { assert, assertExists, lns } from '@tldraw/utils'
+import { assert, assertExists } from '@tldraw/utils'
 import { IRequest, Router } from 'itty-router'
 import Toucan from 'toucan-js'
 import { AlarmScheduler } from './AlarmScheduler'
@@ -118,8 +118,9 @@ export class TLDrawDurableObject extends TLServer {
 		return assertExists(this._documentInfo, 'documentInfo must be present')
 	}
 	extractDocumentInfoFromRequest = async (req: IRequest, isReadonly: boolean) => {
+		const roomId = req.params.roomId
 		const slug = assertExists(
-			isReadonly ? lns(req.params.roomId) : req.params.roomId,
+			isReadonly ? await this.env.READONLY_SLUG_TO_SLUG.get(roomId) : roomId,
 			'roomId must be present'
 		)
 		if (this._documentInfo) {
