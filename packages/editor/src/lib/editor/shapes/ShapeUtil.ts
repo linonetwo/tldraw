@@ -1,6 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { LegacyMigration, LegacyMigrations } from '@tldraw/store'
-import { ShapeProps, TLHandle, TLShape, TLShapePartial, TLUnknownShape } from '@tldraw/tlschema'
+import {
+	ShapeProps,
+	TLHandle,
+	TLShape,
+	TLShapePartial,
+	TLShapePropsMigrations,
+	TLUnknownShape,
+} from '@tldraw/tlschema'
 import { Box } from '../../primitives/Box'
 import { Vec } from '../../primitives/Vec'
 import { Geometry2d } from '../../primitives/geometry/Geometry2d'
@@ -17,8 +24,9 @@ export interface TLShapeUtilConstructor<
 > {
 	new (editor: Editor): U
 	type: T['type']
+	namespace: string
 	props?: ShapeProps<T>
-	migrations?: LegacyMigrations
+	migrations?: LegacyMigrations | TLShapePropsMigrations
 }
 
 /** @public */
