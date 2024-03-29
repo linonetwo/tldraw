@@ -6218,6 +6218,7 @@ export class Editor extends EventEmitter<TLEventMap> {
 		options: TLResizeShapeOptions = {}
 	): this {
 		const id = typeof shape === 'string' ? shape : shape.id
+		const now = Date.now()
 		if (this.getInstanceState().isReadonly) return this
 
 		if (!Number.isFinite(scale.x)) scale = new Vec(1, scale.y)
@@ -6353,6 +6354,7 @@ export class Editor extends EventEmitter<TLEventMap> {
 				{ squashing: true }
 			)
 		}
+		console.log('resigin shape', id, Date.now() - now)
 
 		return this
 	}
