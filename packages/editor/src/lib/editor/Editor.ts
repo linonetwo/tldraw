@@ -4337,6 +4337,7 @@ export class Editor extends EventEmitter<TLEventMap> {
 		let inMarginClosestToEdgeHit: TLShape | null = null
 
 		// Old logic
+		// Best to compare to main though, since this is already using rendering shapes which is improved via rbush
 		// const shapesToCheck = (
 		// 	opts.renderingOnly
 		// 		? this.getCurrentPageRenderingShapesSorted()
