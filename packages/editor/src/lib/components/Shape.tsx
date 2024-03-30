@@ -139,13 +139,12 @@ export const Shape = memo(function Shape({
 			)}
 			<div
 				ref={containerRef}
-				className="tl-shape"
+				className={isCulled ? 'tl-shape tl-shape__culled' : 'tl-shape'}
 				data-shape-type={shape.type}
 				draggable={false}
-				style={{ display: isCulled ? 'none' : undefined }}
 			>
 				<OptionalErrorBoundary fallback={ShapeErrorFallback as any} onError={annotateError}>
-					<InnerShape shape={shape} util={util} />
+					<InnerShape shape={shape} util={util} isCulled={isCulled} />
 				</OptionalErrorBoundary>
 			</div>
 		</>
@@ -153,10 +152,21 @@ export const Shape = memo(function Shape({
 })
 
 const InnerShape = memo(
-	function InnerShape<T extends TLShape>({ shape, util }: { shape: T; util: ShapeUtil<T> }) {
-		return useStateTracking('InnerShape:' + shape.type, () => util.component(shape))
+	function InnerShape<T extends TLShape>({
+		shape,
+		util,
+		isCulled,
+	}: {
+		shape: T
+		util: ShapeUtil<T>
+		isCulled: boolean
+	}) {
+		return useStateTracking('InnerShape:' + shape.type, () => util.component(shape, isCulled))
 	},
-	(prev, next) => prev.shape.props === next.shape.props && prev.shape.meta === next.shape.meta
+	(prev, next) =>
+		prev.shape.props === next.shape.props &&
+		prev.shape.meta === next.shape.meta &&
+		prev.isCulled === next.isCulled
 )
 
 const InnerShapeBackground = memo(
